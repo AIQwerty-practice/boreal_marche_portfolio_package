@@ -6,7 +6,7 @@ This public, replication-oriented deliverables package presents the Boreal March
 
 D1–D4 implementation and controlled deployment evidence are included. The D4 demonstration video, D5 optimization and governance analysis, D6 communication artifacts, and D7 release/defence work are still pending. This repository is therefore a portfolio package, not a certified production release.
 
-## Week 11 reproducibility standard
+## Reproducibility standard
 
 This repository is intended for a classmate to clone on a clean machine and reproduce the system using documented commands. Environment variables are listed in [`.env.example`](.env.example) and [`deploy/aws/.env.example`](deploy/aws/.env.example); no secret values are committed. The final D7 release will record the clean-machine verification result and the exact release commit.
 
