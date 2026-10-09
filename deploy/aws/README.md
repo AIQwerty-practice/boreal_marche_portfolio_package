@@ -36,7 +36,8 @@ Do not upload the raw UCI dataset, the SSH private key, `.env`, MLflow database,
 ## 1. AWS and security prerequisites
 
 - Region is `ca-central-1` (Canada Central).
-- The selected EC2 host has 2 vCPU, 8 GiB RAM, a 20 GiB **unencrypted** root EBS volume, and Ubuntu. Storage encryption is a documented Sprint 1 exception, not a completed control; see `reports/d4/README.md`.
+- When creating an EC2 instance, enable encryption for its root EBS volume in the launch wizard and select the appropriate AWS KMS key. See AWS's [EC2 launch-wizard guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-instance-wizard.html) and [EBS encryption guidance](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html). This package does not attest that encryption is enabled on any existing instance.
+- The reference capacity target is 2 vCPU, 8 GiB RAM, a 20 GiB root EBS volume, and Ubuntu.
   This is an unverified capacity target for the D4 Ollama test, not a guarantee that
   Qwen3 4B will load alongside the API. Check free memory and disk before pulling;
   do not resize the instance or storage without a cost review.
