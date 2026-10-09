@@ -1,0 +1,23 @@
+{
+  "service_stock_codes": [
+    "ADJUST",
+    "AMAZONFEE",
+    "BANK CHARGES",
+    "CRUK",
+    "D",
+    "DOT",
+    "GIFT_0001_10",
+    "M",
+    "PADS",
+    "POST",
+    "TEST001",
+    "TEST002"
+  ],
+  "outlier_quantile": 0.999,
+  "input_parquet": "data/processed/online_retail_ii.parquet",
+  "clean_parquet": "data/processed/transactions_clean.parquet",
+  "rejected_parquet": "data/interim/rejected_transactions.parquet",
+  "report_json": "reports/data/cleaning_report.json",
+  "report_markdown": "reports/data/CLEANING_REPORT.md"
+}
+

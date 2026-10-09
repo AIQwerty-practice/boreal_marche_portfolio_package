@@ -1,0 +1,6 @@
+# Match the preinstalled SageMaker SKLearn 1.2-1 container environment.
+# Broad upgrades break the container's compiled NumPy/Pandas ABI.
+pandas==1.1.3
+python-dateutil==2.8.1
+pyarrow==14.0.1
+scikit-learn==1.2.1

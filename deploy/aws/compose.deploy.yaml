@@ -1,0 +1,4 @@
+services:
+  api:
+    image: ${BOREAL_ECR_IMAGE:?Set BOREAL_ECR_IMAGE}:${BOREAL_IMAGE_TAG:?Set BOREAL_IMAGE_TAG}
+    pull_policy: always

@@ -1,0 +1,20 @@
+{
+  "input_parquet": "data/processed/customer_snapshots.parquet",
+  "n_trials_per_model": 12,
+  "random_state": 42,
+  "mlflow_tracking_uri": "artifacts/mlflow.db",
+  "mlflow_experiment": "retention-optuna",
+  "output_report": "reports/d3/tuning_calibration_report.json",
+  "output_markdown": "reports/d3/TUNING_CALIBRATION_REPORT.md",
+  "trials_csv": "reports/d3/optuna_trials.csv",
+  "calibration_figure": "reports/d3/figures/calibration_comparison.png",
+  "profit_figure": "reports/d3/figures/profit_threshold.png",
+  "artifact_path": "artifacts/retention_model.joblib",
+  "metadata_path": "artifacts/retention_model_meta.json",
+  "campaign_assumptions": {
+    "gross_margin_per_incremental_purchase": 30.0,
+    "incentive_cost_per_purchase": 5.0,
+    "contact_cost": 1.0,
+    "recovery_fraction_of_non_returners": 0.2
+  }
+}

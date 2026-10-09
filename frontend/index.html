@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Boreal Marche customer intelligence demonstration" />
+    <title>Boreal Marche Intelligence</title>
+    <link rel="stylesheet" href="/static/styles.css?v=d4-hf-provider-20260925" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="citrus citrus-one" aria-hidden="true"></div>
+      <div class="citrus citrus-two" aria-hidden="true"></div>
+      <div class="citrus citrus-three" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div class="brand-row"><span class="brand-mark" aria-hidden="true">✳</span><span>BOREAL <strong>MARCHÉ</strong></span><span class="brand-divider"></span><span class="brand-descriptor" data-i18n="brandDescriptor">Customer intelligence</span><div class="language-switch" aria-label="Language"><button type="button" id="lang-en" class="selected" aria-pressed="true">EN</button><button type="button" id="lang-fr" aria-pressed="false">FR</button></div></div>
+        <div class="hero-content">
+          <div>
+            <p class="eyebrow" data-i18n="eyebrow">A FRESHER WAY TO UNDERSTAND CUSTOMERS</p>
+            <h1><span data-i18n="heroOne">Better insight.</span><br><em data-i18n="heroTwo">Brighter decisions.</em></h1>
+            <p class="lede" data-i18n="lede">Explore retention, basket recommendations, and grounded assistance in one responsible decision workspace.</p>
+            <a class="hero-link" href="#workspace"><span data-i18n="explore">Explore the workspace</span> <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="status-card" aria-live="polite">
+            <span id="health-dot" class="status-dot"></span>
+            <div><strong id="health-label">Checking service</strong><small id="version-label">Connecting to API…</small></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="workspace">
+      <div class="workspace-intro"><div><p class="kicker" data-i18n="workspaceKicker">THE WORKSPACE</p><h2 data-i18n="workspaceTitle">Intelligence you can use.</h2></div><p data-i18n="workspaceIntro">Explore three model heads, service health, and how this demonstration handles data.</p></div>
+      <nav class="tabs" aria-label="Application sections">
+        <button class="tab active" data-panel="retention" data-i18n="tabRetention">Retention</button>
+        <button class="tab" data-panel="recommendations" data-i18n="tabRecommendations">Recommendations</button>
+        <button class="tab" data-panel="assistant" data-i18n="tabAssistant">Assistant</button>
+        <button class="tab" data-panel="operations" data-i18n="tabOperations">Operations</button>
+        <button class="tab" data-panel="about" data-i18n="tabAbout">About</button>
+      </nav>
+
+      <section id="retention" class="panel active">
+        <div class="section-heading"><div><p class="kicker">HEAD A</p><h2 data-i18n="retentionTitle">Explore retention</h2></div><span class="badge" data-i18n="horizon">90-day horizon</span></div>
+        <p class="explanation" data-i18n="retentionIntro">Choose a preset or adjust the sliders to create a custom profile, then submit it for prediction. Other features stay fixed in this illustrative profile. No customer is contacted automatically.</p>
+        <div class="model-choice"><label for="retention-model"><span data-i18n="validationMethod">Validation method</span><select id="retention-model"><option value="temporal" data-i18n="temporalModel">Temporal validation (primary)</option><option value="random_80_20" data-i18n="randomModel">80/20 full cleaned data (random state 42)</option></select></label><p id="model-method-note" class="footnote" data-i18n="temporalNote">Primary model: training and evaluation follow time order to resemble future use.</p></div>
+        <div class="scenario-row"><label><span data-i18n="scenarioLabel">Synthetic scenario</span><select id="scenario"><option value="starter" data-i18n="scenarioStarter">Starter profile</option><option value="frequent" data-i18n="scenarioFrequent">Frequent shopper</option><option value="lapsed" data-i18n="scenarioLapsed">Lapsed shopper</option><option value="likelyReturn" data-i18n="scenarioNotEligible">Likely to return — not eligible</option><option value="custom" data-i18n="scenarioCustom">Custom profile</option></select></label><button type="button" id="load-example" class="secondary" data-i18n="resetScenario">Reset selected preset</button></div>
+        <div class="slider-grid">
+          <label><span data-i18n="recencyLabel">Days since last order</span><output id="recency-value" for="recency-slider">0</output><input type="range" id="recency-slider" min="0" max="365" step="1" /></label>
+          <label><span data-i18n="frequencyLabel">Orders in observation period</span><output id="frequency-value" for="frequency-slider">1</output><input type="range" id="frequency-slider" min="1" max="40" step="1" /></label>
+          <label><span data-i18n="spendLabel">Total spend (illustrative units)</span><output id="spend-value" for="spend-slider">25</output><input type="range" id="spend-slider" min="25" max="5000" step="25" /></label>
+          <label><span data-i18n="productsLabel">Unique products</span><output id="products-value" for="products-slider">1</output><input type="range" id="products-slider" min="1" max="100" step="1" /></label>
+        </div>
+        <fieldset class="campaign-controls">
+          <legend data-i18n="decisionLayer">Managerial campaign decision</legend>
+          <label class="campaign-switch"><input id="apply-campaign-rule" type="checkbox" checked /><span data-i18n="applyCampaignRule">Apply a campaign threshold to the model probability</span></label>
+          <label class="campaign-threshold" for="campaign-threshold"><span data-i18n="campaignThreshold">What-if threshold</span><output id="campaign-threshold-value" for="campaign-threshold">40%</output><input id="campaign-threshold" type="range" min="0" max="100" step="1" value="40" /></label>
+          <p class="footnote" data-i18n="decisionLayerNote">The model probability never changes when you adjust this rule. Turn it off to view the model output without a campaign decision. A 0% threshold is still an active, very strict rule.</p>
+        </fieldset>
+        <div class="prediction-actions"><button type="button" id="toggle-advanced" class="secondary" aria-expanded="false" data-i18n="advancedToggle">Advanced: view full model inputs</button><button type="button" id="predict-button" data-i18n="predictButton">Predict return probability</button></div>
+        <div id="advanced-inputs" hidden><p class="footnote" data-i18n="advancedNote">For audit only: the sliders update selected fields; all other synthetic features remain fixed.</p><textarea id="feature-json" spellcheck="false" aria-label="Prediction feature JSON" readonly></textarea></div>
+        <div id="prediction-result" class="result empty" aria-live="polite" data-i18n="predictionWaiting">Loading the synthetic profile…</div>
+        <aside class="journey-card" aria-labelledby="journey-title">
+          <div><p class="kicker" data-i18n="journeyKicker">GUIDED JOURNEY · STEP 2</p><h3 id="journey-title" data-i18n="journeyTitle">Continue with an example basket</h3><p data-i18n="journeyDisclosure">Head B is a separate model. This example basket is not generated from the retention profile and the retention score does not influence its recommendations.</p></div>
+          <button type="button" id="continue-to-basket" data-i18n="journeyButton">Load example basket and continue</button>
+        </aside>
+      </section>
+
+      <section id="recommendations" class="panel">
+        <div class="section-heading"><div><p class="kicker">HEAD B</p><h2 data-i18n="basketTitle">Build a basket</h2></div><span class="badge" data-i18n="rulesBadge">Explainable rules</span></div>
+        <p class="explanation" data-i18n="basketIntro">Search by product name, add items to a basket, and see what the offline rules recommend. Product codes stay visible for traceability, but you do not need to know them.</p>
+        <div id="journey-notice" class="journey-notice" hidden><strong data-i18n="journeyArrived">Guided example loaded</strong><span data-i18n="journeyReminder">This illustrative basket is independent of the synthetic profile in Head A.</span></div>
+        <div class="shopping-layout">
+          <div class="catalog-pane">
+            <div class="catalog-heading"><div><p class="kicker" data-i18n="browseProducts">BROWSE PRODUCTS</p><h3 data-i18n="chooseProducts">Choose products to add</h3></div></div>
+            <div class="catalog-toolbar">
+              <label class="product-search-label"><span data-i18n="searchLabel">Search by product name or code</span><input id="product-search" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Try “parasol” or “15056BL”" data-i18n-placeholder="searchPlaceholder" aria-describedby="product-search-help" /><small id="product-search-help" data-i18n="searchHelp">Start typing; results update automatically.</small></label>
+              <button type="button" id="clear-search" class="secondary" data-i18n="showAll">Show all</button>
+            </div>
+            <div class="catalog-filter-row">
+              <label><span data-i18n="categoryLabel">Browse by category</span><select id="category-filter"><option value="all" data-i18n="categoryAll">All categories</option></select></label>
+              <p id="catalog-status" class="catalog-status" aria-live="polite"></p>
+            </div>
+            <div id="catalog-results" class="product-grid"></div>
+            <nav class="catalog-pagination" aria-label="Catalog pages"><button type="button" id="catalog-prev" class="secondary" data-i18n="previousPage">Previous</button><span id="catalog-page"></span><button type="button" id="catalog-next" class="secondary" data-i18n="nextPage">Next</button></nav>
+          </div>
+          <aside class="basket-sidebar" aria-labelledby="basket-heading">
+            <div class="basket-header"><div><p class="kicker" data-i18n="orderSummary">ORDER SUMMARY</p><h3 id="basket-heading" data-i18n="yourBasket">Your basket</h3><span id="basket-count" class="basket-count" aria-live="polite"></span></div><button type="button" id="clear-basket" class="secondary" data-i18n="clearBasket">Clear basket</button></div>
+            <div id="basket-items" class="basket-items"></div>
+            <div class="basket-actions"><label><span data-i18n="recommendCount">Recommendations</span><select id="recommend-k"><option>3</option><option selected>5</option><option>10</option></select></label><button type="button" id="recommend-button" data-i18n="recommendButton">See recommendations</button></div>
+            <section class="sidebar-recommendations" aria-labelledby="recommend-heading"><h3 id="recommend-heading" data-i18n="recommendationsForBasket">Recommended for this basket</h3><div id="recommend-result" class="result empty" aria-live="polite" data-i18n="recommendWaiting">Add a product or try the empty-basket popularity fallback.</div></section>
+          </aside>
+        </div>
+      </section>
+
+      <section id="assistant" class="panel">
+        <div class="section-heading"><div><p class="kicker">HEAD C</p><h2 data-i18n="assistantTitle">Grounded bilingual assistant</h2></div><span class="badge" data-i18n="assistantBadge">Policy constrained</span></div>
+        <p class="explanation" data-i18n="assistantIntro">Choose the customer or staff path. Product search and recommendations use the demonstration catalog; staff retention guidance requires internal access.</p>
+        <div class="assistant-audience-heading"><h3 data-i18n="customerAssistantTitle">Customer assistant</h3><p class="footnote" data-i18n="customerAssistantNote">Search the demonstration catalog by product name or code, ask for recommendations, or browse customer policies. Recommendations can use your Head B basket. This is not live stock availability.</p></div>
+        <form id="assistant-form" class="workspace">
+          <label><span data-i18n="assistantProviderLabel">Question-routing provider</span><select id="assistant-provider"><option value="baseline" data-i18n="assistantProviderBaseline">Rule / keyword baseline</option><option value="openai" data-i18n="assistantProviderOpenAI">Hosted OpenAI</option><option value="huggingface" data-i18n="assistantProviderHuggingFace">Hugging Face Inference Providers</option><option value="ollama" data-i18n="assistantProviderOllama">Local Ollama</option></select></label>
+          <p id="assistant-provider-note" class="footnote" aria-live="polite"></p>
+          <label id="provider-access-row" hidden><span data-i18n="providerAccessLabel">LLM demo access token</span><input id="provider-access" type="password" autocomplete="off" /></label>
+          <label id="hosted-consent-row" class="check" hidden><input id="hosted-data-consent" type="checkbox" /><span data-i18n="assistantHostedConsent">I confirm this question contains no personal or customer data and may be sent to the selected hosted provider.</span></label>
+          <label><span data-i18n="assistantTaskLabel">What would you like to do?</span><select id="assistant-task"><option value="auto" data-i18n="assistantTaskAuto">Let the assistant identify my question</option><option value="product_lookup" data-i18n="assistantTaskLookup">Find a product by name or code</option><option value="recommendation" data-i18n="assistantTaskRecommend">Get product recommendations</option><option value="policy_search" data-i18n="assistantTaskPolicy">Ask about a customer policy</option></select></label>
+          <div class="question-mode" role="group" aria-label="Question entry mode" data-i18n-aria-label="questionModeLabel">
+            <button type="button" id="question-mode-faq" class="selected" aria-pressed="true" data-i18n="questionModeFaq">Browse FAQs</button>
+            <button type="button" id="question-mode-custom" aria-pressed="false" data-i18n="questionModeCustom">Ask my own question</button>
+          </div>
+          <div class="faq-picker" id="faq-picker">
+            <label><span data-i18n="faqCategoryLabel">Question category</span><select id="faq-category"></select></label>
+            <label><span data-i18n="faqQuestionLabel">Common question</span><select id="faq-question"></select></label>
+          </div>
+          <p class="footnote faq-help" id="faq-help" data-i18n="faqHelp">Choose a common question to fill the box, or select Ask my own question and write yours.</p>
+          <label><span data-i18n="questionLabel">Your question</span><textarea id="question" rows="4" placeholder="What is the return policy?" data-i18n-placeholder="questionPlaceholder"></textarea></label>
+          <p class="footnote" data-i18n="providerNote">Only configured providers can be selected. LLMs route the question; approved local tools provide the answer and citations. No free-form LLM answer is presented.</p>
+          <button type="submit" data-i18n="askButton">Ask assistant</button>
+        </form>
+        <div id="assistant-result" class="result empty" data-i18n="assistantWaiting">The grounded answer, intent, citations, and safety outcome will appear here.</div>
+        <section class="staff-assistant" aria-labelledby="staff-assistant-heading">
+          <h3 id="staff-assistant-heading" data-i18n="staffAssistantTitle">Internal staff · retention and loyalty</h3>
+          <p class="footnote" data-i18n="staffAssistantNote">Demo staff sign-in only. Answers use the internal demonstration policy; no customer-specific score or offer approval is performed here.</p>
+          <form id="staff-login-form" class="workspace">
+            <label><span data-i18n="staffUsernameLabel">Demo username</span><input id="staff-username" type="text" autocomplete="username" required /></label>
+            <label><span data-i18n="staffPasswordLabel">Demo password</span><input id="staff-password" type="password" autocomplete="current-password" required /></label>
+            <button type="submit" data-i18n="staffSignInButton">Sign in to staff demo</button>
+          </form>
+          <div id="staff-session-controls" class="staff-session-controls" hidden><span id="staff-session-status" data-i18n="staffSignedIn">Signed in to staff demo</span><button id="staff-logout" type="button" class="secondary" data-i18n="staffSignOutButton">Sign out</button></div>
+          <form id="staff-assistant-form" class="workspace" hidden>
+            <label><span data-i18n="staffQuestionLabel">Retention or loyalty question</span><textarea id="staff-question" rows="3" required data-i18n-placeholder="staffQuestionPlaceholder" placeholder="Are retention offers guaranteed?"></textarea></label>
+            <button type="submit" data-i18n="staffAskButton">Ask staff assistant</button>
+          </form>
+          <div id="staff-assistant-result" class="result empty" aria-live="polite" data-i18n="staffAssistantWaiting">Internal guidance and source will appear here after authorization.</div>
+        </section>
+      </section>
+
+      <section id="operations" class="panel">
+        <div class="section-heading"><div><p class="kicker" data-i18n="opsKicker">OPERATIONS</p><h2 data-i18n="opsTitle">Live service monitoring</h2></div><span id="alert-badge" class="badge good">Normal</span></div>
+        <div class="metric-grid">
+          <article><small data-i18n="requests">Requests</small><strong id="metric-requests">0</strong></article>
+          <article><small data-i18n="errors">Errors</small><strong id="metric-errors">0</strong></article>
+          <article><small data-i18n="errorRate">Error rate</small><strong id="metric-error-rate">0.0%</strong></article>
+          <article><small data-i18n="latency">Average latency</small><strong id="metric-latency">0.0 ms</strong></article>
+        </div>
+        <div class="alert-panel"><div><h3 data-i18n="demoTraffic">Demonstration traffic</h3><p data-i18n="trafficIntro">Normal traffic exercises healthy endpoints. Shifted traffic intentionally violates the prediction contract to trigger observable errors.</p></div><div class="action-row"><button id="normal-traffic" class="secondary" data-i18n="generateNormal">Generate normal traffic</button><button id="shifted-traffic" class="danger" data-i18n="generateShifted">Generate shifted traffic</button></div></div>
+        <p id="traffic-status" class="footnote" aria-live="polite" data-i18n="metricsRefresh">Metrics refresh every five seconds.</p>
+        <div class="drift-panel"><div><h3 data-i18n="driftTitle">Synthetic distribution-shift comparison</h3><p data-i18n="driftIntro">Separate from API errors: compare a batch of valid fictional profiles with aggregate training/validation distributions. No profiles are saved or added to training data.</p><p id="drift-reference-status" class="footnote" aria-live="polite"></p></div><div class="action-row"><button id="drift-reference-demo" class="secondary" data-i18n="driftReferenceButton" disabled>Compare reference-like batch</button><button id="drift-shifted-demo" data-i18n="driftShiftedButton" disabled>Compare shifted batch</button></div></div>
+        <div id="drift-result" class="result empty" aria-live="polite" data-i18n="driftWaiting">Synthetic drift comparison is not enabled on this server.</div>
+      </section>
+      <section id="about" class="panel">
+        <div class="section-heading"><div><p class="kicker" data-i18n="aboutKicker">ABOUT THIS DEMONSTRATION</p><h2 data-i18n="aboutTitle">Transparent by design</h2></div></div>
+        <div class="about-grid"><article><h3 data-i18n="provenanceTitle">Data provenance</h3><p data-i18n="provenanceText">Boréal Marché is a fictional pedagogical scenario based on the public UCI Online Retail II dataset—not proprietary client data.</p><a href="/about/data-card" data-i18n="dataCard">Read the data card</a></article><article><h3 data-i18n="modelTitle">Model and limits</h3><p data-i18n="modelText">The retention score supports human review; it is not an automated decision or a guarantee. Recommendations come from offline-mined rules with a popularity fallback.</p><a href="/about/model-card" data-i18n="modelCard">Read the model card</a></article><article><h3 data-i18n="privacyTitle">Privacy notice</h3><p data-i18n="privacyText">This demo uses synthetic profiles. Account-specific requests require identity verification; another customer's data must not be disclosed.</p><a href="/about/privacy" data-i18n="privacyLink">Read the bilingual privacy notice</a></article><article><h3 data-i18n="architectureTitle">Architecture</h3><p data-i18n="architectureText">One FastAPI service hosts the interface, prediction pipeline, recommendation index, and grounded assistant.</p><a href="/about/architecture" data-i18n="architectureLink">View architecture diagram</a></article></div>
+      </section>
+    </main>
+    <footer><span data-i18n="footer">Boreal Marche · D4 deployment demonstration</span><a href="/docs" data-i18n="apiDocs">API documentation</a></footer>
+    <script src="/static/ux.js?v=d4-slider-minima-20260930" defer></script>
+  </body>
+</html>

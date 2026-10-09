@@ -1,0 +1,33 @@
+{
+  "input_parquet": "data/processed/customer_snapshots.parquet",
+  "random_state": 42,
+  "calibration_cv": 3,
+  "pr_auc_tolerance": 0.002,
+  "brier_tolerance_vs_none": 0.001,
+  "folds": [
+    {"name": "fold_1", "validation_cutoff": "2011-03-01"},
+    {"name": "fold_2", "validation_cutoff": "2011-06-01"}
+  ],
+  "model_params": {
+    "n_estimators": 400,
+    "max_depth": 20,
+    "min_samples_split": 29,
+    "min_samples_leaf": 18,
+    "max_features": "log2",
+    "bootstrap": true
+  },
+  "campaign_assumptions": {
+    "gross_margin_per_incremental_purchase": 30.0,
+    "incentive_cost_per_purchase": 5.0,
+    "contact_cost": 1.0,
+    "recovery_fraction_of_non_returners": 0.2
+  },
+  "mlflow_tracking_uri": "artifacts/mlflow.db",
+  "mlflow_experiment": "retention-balancing",
+  "fold_results_csv": "reports/d3/balancing_fold_results.csv",
+  "summary_csv": "reports/d3/balancing_summary.csv",
+  "profit_curves_csv": "reports/d3/balancing_profit_curves.csv",
+  "report_json": "reports/d3/balancing_report.json",
+  "report_markdown": "reports/d3/BALANCING_REPORT.md",
+  "figure_path": "reports/d3/figures/balancing_comparison.png"
+}

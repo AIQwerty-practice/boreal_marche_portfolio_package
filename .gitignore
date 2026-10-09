@@ -1,0 +1,52 @@
+# Internal project-management records and manual version snapshots
+Archive/
+ProjectV1-*/
+
+# Instructor-provided assignment source documents
+Capstone_Project1.pdf
+Capstone_Project1_Presentation.html
+
+# Local environments, credentials, and secrets
+.env
+.env.*
+!.env.example
+LLMs/
+*.pem
+AWS/Key/
+deploy/sagemaker/config.local.json
+deploy/sagemaker/config.*.local.json
+data/processed/customer_snapshots_development.parquet
+.venv/
+.sagemaker-venv/
+venv/
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.test_tmp*/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local data and generated artifacts
+data/raw/
+data/interim/
+data/processed/*.parquet
+artifacts/
+mlruns/
+mlartifacts/
+tmp/
+
+# Local tools and operating-system files
+scripts/build_d*_pdf.py
+scripts/update_d*_dataset.py
+.DS_Store
+Thumbs.db
+~$*
+.idea/
+.vscode/

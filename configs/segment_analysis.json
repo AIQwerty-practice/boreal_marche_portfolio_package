@@ -1,0 +1,12 @@
+{
+  "input_parquet": "data/processed/customer_snapshots.parquet",
+  "artifact_path": "artifacts/retention_model.joblib",
+  "operating_threshold": 0.4,
+  "minimum_segment_size": 20,
+  "bootstrap_iterations": 1000,
+  "random_state": 42,
+  "segments_csv": "reports/d3/segment_metrics.csv",
+  "report_json": "reports/d3/segment_analysis_report.json",
+  "report_markdown": "reports/d3/SEGMENT_UNCERTAINTY_REPORT.md",
+  "figure_path": "reports/d3/figures/segment_pr_auc.png"
+}

@@ -1,0 +1,19 @@
+{
+  "input_parquet": "data/processed/transactions_clean.parquet",
+  "holdout_start": "2011-10-01",
+  "maximum_items": 300,
+  "min_support": 0.01,
+  "min_confidence": 0.1,
+  "min_lift": 1.1,
+  "apriori_min_support": 0.02,
+  "apriori_item_limit": 100,
+  "support_sweep": [0.005, 0.01, 0.02],
+  "confidence_sweep": [0.1, 0.2, 0.3],
+  "k": 5,
+  "rules_csv": "reports/d3/recommendation_rules.csv",
+  "sweep_csv": "reports/d3/recommendation_threshold_sweep.csv",
+  "artifact_json": "artifacts/recommendation_rules.json",
+  "report_json": "reports/d3/recommendation_report.json",
+  "report_markdown": "reports/d3/RECOMMENDATION_REPORT.md",
+  "figure_path": "reports/d3/figures/recommendation_vs_popularity.png"
+}

@@ -1,0 +1,15 @@
+{
+  "input_parquet": "data/processed/customer_snapshots.parquet",
+  "results_csv": "reports/d2/model_screening_fold_results.csv",
+  "summary_csv": "reports/d2/model_screening_summary.csv",
+  "report_json": "reports/d2/model_screening_report.json",
+  "report_markdown": "reports/d2/MODEL_SCREENING_REPORT.md",
+  "figure_path": "reports/d2/figures/model_pr_auc_comparison.png",
+  "random_state": 42,
+  "business_rule_recency_days": 30,
+  "folds": [
+    {"name": "fold_1", "validation_cutoff": "2011-03-01"},
+    {"name": "fold_2", "validation_cutoff": "2011-06-01"}
+  ]
+}
+

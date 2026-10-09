@@ -1,0 +1,53 @@
+{
+  "dataset": "UCI Online Retail II",
+  "source_url": "https://archive.ics.uci.edu/static/public/502/online%2Bretail%2Bii.zip",
+  "source_page": "https://archive.ics.uci.edu/dataset/502/online%2Bretail%2Bii",
+  "doi": "10.24432/C5CG6D",
+  "license": "CC BY 4.0",
+  "citation": "Chen, D. (2012). Online Retail II [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5CG6D.",
+  "retrieved_at_utc": "2026-09-03T23:18:37.900537+00:00",
+  "archive": {
+    "path": "data/raw/online_retail_ii.zip",
+    "bytes": 45622418,
+    "sha256": "572e36277c2390fbfde10664750731e0a86f55e33470d91919085f0408e67bfb"
+  },
+  "workbook": {
+    "path": "data/raw/online_retail_II.xlsx",
+    "bytes": 45622278,
+    "sha256": "bcbe73b35f5b7babf197fb0cb983a11f5d9ff929078d4aa53d171b1f2df2e980",
+    "sheets": [
+      "Year 2009-2010",
+      "Year 2010-2011"
+    ]
+  },
+  "parquet": {
+    "path": "data/processed/online_retail_ii.parquet",
+    "bytes": 7282523,
+    "sha256": "f5881f2e75319b1794e8450d546f8c53630ce82b2da6f51284006fcef7f42025",
+    "row_count": 1067371,
+    "column_count": 9,
+    "schema": {
+      "invoice_no": "string",
+      "stock_code": "string",
+      "description": "string",
+      "quantity": "int64",
+      "invoice_date": "datetime64[ns]",
+      "unit_price": "float64",
+      "customer_id": "string",
+      "country": "string",
+      "source_sheet": "string"
+    },
+    "null_counts": {
+      "invoice_no": 0,
+      "stock_code": 0,
+      "description": 4382,
+      "quantity": 0,
+      "invoice_date": 0,
+      "unit_price": 0,
+      "customer_id": 243007,
+      "country": 0,
+      "source_sheet": 0
+    }
+  },
+  "provenance_note": "Public UCI data re-skinned as Boreal Marche for a pedagogical scenario; it is not proprietary client data."
+}

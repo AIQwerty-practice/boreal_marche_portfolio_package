@@ -1,0 +1,14 @@
+{
+  "observation_days": 365,
+  "label_days": 90,
+  "cutoffs": [
+    {"date": "2010-12-01", "role": "train"},
+    {"date": "2011-03-01", "role": "train"},
+    {"date": "2011-06-01", "role": "validation"},
+    {"date": "2011-09-10", "role": "test"}
+  ],
+  "input_parquet": "data/processed/transactions_clean.parquet",
+  "output_parquet": "data/processed/customer_snapshots.parquet",
+  "report_json": "reports/d2/feature_snapshot_report.json"
+}
+

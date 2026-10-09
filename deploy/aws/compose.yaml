@@ -1,0 +1,102 @@
+name: boreal-marche
+
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: deploy/aws/Dockerfile
+    image: boreal-marche-api:${BOREAL_IMAGE_TAG:-local}
+    restart: unless-stopped
+    init: true
+    environment:
+      APP_ENV: production-like-demo
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      BOREAL_ERROR_RATE_ALERT_THRESHOLD: ${BOREAL_ERROR_RATE_ALERT_THRESHOLD:-0.20}
+      BOREAL_API_TOKEN: ${BOREAL_API_TOKEN:?Set BOREAL_API_TOKEN in deploy/aws/.env}
+      BOREAL_DEMO_STAFF_USERNAME: ${BOREAL_DEMO_STAFF_USERNAME:-}
+      BOREAL_DEMO_STAFF_PASSWORD: ${BOREAL_DEMO_STAFF_PASSWORD:-}
+      BOREAL_TOOL_API_BASE_URL: http://api:8000
+      BOREAL_ENABLE_OPENAI: ${BOREAL_ENABLE_OPENAI:-0}
+      BOREAL_LLM_ACCESS_TOKEN: ${BOREAL_LLM_ACCESS_TOKEN:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      OPENAI_INPUT_COST_PER_MILLION: ${OPENAI_INPUT_COST_PER_MILLION:-}
+      OPENAI_OUTPUT_COST_PER_MILLION: ${OPENAI_OUTPUT_COST_PER_MILLION:-}
+      BOREAL_ENABLE_HUGGINGFACE: ${BOREAL_ENABLE_HUGGINGFACE:-0}
+      HF_TOKEN: ${HF_TOKEN:-}
+      HF_MODEL: ${HF_MODEL:-}
+      HF_INPUT_COST_PER_MILLION: ${HF_INPUT_COST_PER_MILLION:-}
+      HF_OUTPUT_COST_PER_MILLION: ${HF_OUTPUT_COST_PER_MILLION:-}
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-}
+    volumes:
+      - ../../artifacts:/app/artifacts:ro
+      - ../../data/processed/transactions_clean.parquet:/app/data/processed/transactions_clean.parquet:ro
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/ready', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - boreal_private
+    security_opt:
+      - no-new-privileges:true
+
+  ollama:
+    image: ollama/ollama:${OLLAMA_IMAGE_TAG:?Set a verified Ollama image tag or digest in deploy/aws/.env}
+    restart: unless-stopped
+    volumes:
+      - ollama_models:/root/.ollama
+    networks:
+      - boreal_private
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    security_opt:
+      - no-new-privileges:true
+
+  provider-evaluation:
+    image: boreal-marche-api:${BOREAL_IMAGE_TAG:-local}
+    profiles: ["evaluation"]
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:?Set OLLAMA_MODEL in deploy/aws/.env}
+      HOSTED_LLM_BASE_URL: ${HOSTED_LLM_BASE_URL:-}
+      HOSTED_LLM_API_KEY: ${HOSTED_LLM_API_KEY:-}
+      HOSTED_LLM_MODEL: ${HOSTED_LLM_MODEL:-}
+      HOSTED_LLM_INPUT_COST_PER_MILLION: ${HOSTED_LLM_INPUT_COST_PER_MILLION:-}
+      HOSTED_LLM_OUTPUT_COST_PER_MILLION: ${HOSTED_LLM_OUTPUT_COST_PER_MILLION:-}
+      BOREAL_ENABLE_OPENAI: ${BOREAL_ENABLE_OPENAI:-0}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      OPENAI_INPUT_COST_PER_MILLION: ${OPENAI_INPUT_COST_PER_MILLION:-}
+      OPENAI_OUTPUT_COST_PER_MILLION: ${OPENAI_OUTPUT_COST_PER_MILLION:-}
+      BOREAL_ENABLE_HUGGINGFACE: ${BOREAL_ENABLE_HUGGINGFACE:-0}
+      HF_TOKEN: ${HF_TOKEN:-}
+      HF_MODEL: ${HF_MODEL:-}
+      HF_INPUT_COST_PER_MILLION: ${HF_INPUT_COST_PER_MILLION:-}
+      HF_OUTPUT_COST_PER_MILLION: ${HF_OUTPUT_COST_PER_MILLION:-}
+    command: ["python", "scripts/compare_assistant_providers.py", "--root", "/app", "--provider", "all"]
+    volumes:
+      - ../../reports/d3/provider_comparison:/app/reports/d3/provider_comparison
+    networks:
+      - boreal_private
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  ollama_models:
+
+networks:
+  boreal_private:
+    internal: false
