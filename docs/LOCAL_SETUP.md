@@ -43,6 +43,48 @@ python -m uvicorn boreal_marche.api.app:app --host 127.0.0.1 --port 8000
 
 Open `http://127.0.0.1:8000/` for the interface, `http://127.0.0.1:8000/docs` for the API contract, and `http://127.0.0.1:8000/ready` for the readiness response.
 
+## Optional: local Ollama question routing
+
+Heads A and B and the grounded baseline assistant work after the rebuild above. To enable the Ollama question-routing choice locally, install Ollama separately, pull a supported model, and run its local service. For example:
+
+```bash
+ollama pull qwen3:4b
+ollama serve
+```
+
+In a second terminal, set the following values before starting the API. Do not commit them.
+
+PowerShell:
+
+```powershell
+$env:OLLAMA_BASE_URL = "http://127.0.0.1:11434"
+$env:OLLAMA_MODEL = "qwen3:4b"
+$env:BOREAL_LLM_ACCESS_TOKEN = "choose-a-local-demo-token"
+python -m uvicorn boreal_marche.api.app:app --host 127.0.0.1 --port 8000
+```
+
+Bash:
+
+```bash
+export OLLAMA_BASE_URL="http://127.0.0.1:11434"
+export OLLAMA_MODEL="qwen3:4b"
+export BOREAL_LLM_ACCESS_TOKEN="choose-a-local-demo-token"
+python -m uvicorn boreal_marche.api.app:app --host 127.0.0.1 --port 8000
+```
+
+Enter the same local demo token in the browser’s LLM-access-token field and select Ollama. Ollama only routes the fictional question; approved local retrieval and typed tools still produce the displayed answer and citations.
+
+## Optional: local staff-demo assistant
+
+The staff path is configured separately from the customer assistant. Set a unique local username and password in the same terminal before starting the API:
+
+```powershell
+$env:BOREAL_DEMO_STAFF_USERNAME = "staff-demo"
+$env:BOREAL_DEMO_STAFF_PASSWORD = "choose-a-unique-local-password"
+```
+
+The interface will then support the restricted staff sign-in and its short-lived HTTP-only session. These values are for a local demonstration only; they are not employee identity management and must not be committed, shared publicly, or used as production credentials.
+
 ## Important boundary
 
 The local pipeline rebuilds a functional development runtime from the documented public source data. It does not rerun the project’s one-time protected final evaluation or claim to recreate the original cloud environment, production certification, or final D3 artifact byte-for-byte. Record the results of any independent clean-machine run in `REPRODUCIBILITY.md` before treating the reproducibility requirement as complete.
