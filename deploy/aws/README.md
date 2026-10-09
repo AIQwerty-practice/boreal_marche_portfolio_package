@@ -1,6 +1,6 @@
 # Boreal Marche — AWS Canada Central deployment
 
-Author: Barbara Plascencia
+Deployment guidance for a local developer or business administrator.
 
 Target: one production-like capstone demonstration instance in AWS `ca-central-1`
 
@@ -41,7 +41,7 @@ Do not upload the raw UCI dataset, the SSH private key, `.env`, MLflow database,
   Qwen3 4B will load alongside the API. Check free memory and disk before pulling;
   do not resize the instance or storage without a cost review.
 - The Elastic IP is associated with this instance.
-- SSH port `22` is restricted to Barbara's current public IP.
+- SSH port `22` is restricted to the public IP of an authorized local personal or business device.
 - Do not add inbound rules for `8000` or `11434`.
 - Add inbound TCP `80` and `443` from the internet only when enabling the public HTTPS proxy.
 - Confirm the budget alarm and intended experiment time limit before downloading an Ollama model.
