@@ -9,6 +9,23 @@ from boreal_marche.recommendation.recommend import recommend
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _deployment_workflow_or_documented_boundary() -> Path | None:
+    """Return the private deployment workflow, or validate its deliberate exclusion.
+
+    The public portfolio is intentionally runnable locally without publishing the
+    workflow that can deploy to the project AWS environment. The main project
+    repository still carries and tests that workflow.
+    """
+    workflow = ROOT / ".github/workflows/deploy-d4.yml"
+    if workflow.is_file():
+        return workflow
+    scope = ROOT / "PORTFOLIO_SCOPE.md"
+    assert scope.is_file(), "missing deployment workflow requires a package-scope note"
+    note = scope.read_text(encoding="utf-8")
+    assert "private AWS deployment workflow is intentionally excluded" in note
+    return None
+
+
 def test_frontend_assets_and_container_copy_are_present() -> None:
     for relative in ("frontend/index.html", "frontend/styles.css", "frontend/app.js", "frontend/ux.js"):
         assert (ROOT / relative).is_file()
@@ -90,7 +107,10 @@ def test_container_uses_approved_model_runtime() -> None:
 
 
 def test_d4_workflow_uses_oidc_and_immutable_sha_tag() -> None:
-    workflow = (ROOT / ".github/workflows/deploy-d4.yml").read_text(encoding="utf-8")
+    workflow_path = _deployment_workflow_or_documented_boundary()
+    if workflow_path is None:
+        return
+    workflow = workflow_path.read_text(encoding="utf-8")
     assert "id-token: write" in workflow
     assert "aws-actions/configure-aws-credentials@v5" in workflow
     assert "${GITHUB_SHA}" in workflow
@@ -106,9 +126,11 @@ def test_public_d4_files_do_not_contain_private_aws_identifiers() -> None:
         ROOT / "deploy/aws/compose.deploy.yaml",
         ROOT / "deploy/aws/deploy_ssm.sh",
         ROOT / "deploy/aws/rollback_ssm.sh",
-        ROOT / ".github/workflows/deploy-d4.yml",
-        ROOT / "reports/d4/README.md",
+        ROOT / "PORTFOLIO_SCOPE.md",
     ]
+    workflow = _deployment_workflow_or_documented_boundary()
+    if workflow is not None:
+        checked.append(workflow)
     forbidden = ("AKIA", "ASIA")
     for path in checked:
         text = path.read_text(encoding="utf-8")

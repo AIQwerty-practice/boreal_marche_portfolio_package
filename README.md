@@ -4,26 +4,35 @@ This public, replication-oriented deliverables package presents the Boreal March
 
 ## Current status
 
-D1–D4 implementation and controlled deployment evidence are included. The D4 demonstration video, D5 optimization and governance analysis, D6 communication artifacts, and D7 release/defence work are still pending. This repository is therefore a portfolio package, not a certified production release.
+The Boreal Marche project is complete through D7. This public portfolio repository is the clean-clone reproducibility package: it intentionally contains the runnable source, tests, safe configuration examples, and technical documentation, but not private customer data, cloud credentials, or grading evidence.
+
+### Deliverable legend
+
+| Label | Meaning |
+| --- | --- |
+| D1 | Data ingestion, quality review, and source-data documentation |
+| D2 | Feature engineering and temporal customer-history snapshots |
+| D3 | Retention-model selection, calibration, threshold policy, and protected evaluation |
+| D4 | Application engineering, API/UI, controlled deployment, and operational evidence |
+| D5 | Latency optimization, interpretation, fairness/allocation review, and governance boundaries |
+| D6 | Consolidated technical report, bilingual executive summary, and final presentation |
+| D7 | Submission checklist, release/defence materials, reflection, and reproducibility handoff |
+
+“D#” in a file name or document refers to the corresponding project deliverable above; it is not a version number or a production-readiness level.
 
 ## Reproducibility standard
 
-This repository is intended for a classmate to clone on a clean machine and reproduce the system using documented commands. Environment variables are listed in [`.env.example`](.env.example) and [`deploy/aws/.env.example`](deploy/aws/.env.example); no secret values are committed. The final D7 release will record the clean-machine verification result and the exact release commit.
+This repository is intended for a classmate to clone on a clean machine and reproduce the system using documented commands. Environment variables are listed in [`.env.example`](.env.example) and [`deploy/aws/.env.example`](deploy/aws/.env.example); no secret values are committed. The instructor coordinates the final clean-clone check as a grading activity; the canonical release is the main project repository’s `v1.0` release.
 
-## For a teammate
+## For a teammate: reproduce the local app
 
-Use Python 3.11 or 3.12, then run:
+Start with the step-by-step [clean-clone guide](docs/LOCAL_SETUP.md). It gives Windows, macOS, and Linux activation commands; rebuilds the local runtime from the public source data; explains the required local drift baseline; and ends with exact browser and API checks. It also clearly separates the normal reproduction path from optional Ollama and staff-demo features.
 
-```bash
-python -m venv .venv
-# Activate the environment for your shell.
-python -m pip install --upgrade pip
-python -m pip install -e ".[dev]"
-python -m boreal_marche.data.ingest --root .
-python -m pytest
-```
+The ingestion process retrieves the documented source dataset when needed. Raw and generated customer-level data are intentionally not distributed in this repository. A local rebuild is development evidence: it does not recreate the protected final evaluation or authorize production use.
 
-The ingestion process retrieves the documented source dataset when needed. Raw and generated customer-level data are intentionally not distributed in this repository. A successful test run and documented local API start are the current reproducibility checks; the final clean-machine outcome remains a D7 release requirement.
+## Use your own trained retention model (local development only)
+
+The same guide includes a controlled [custom-model path](docs/LOCAL_SETUP.md#optional-use-your-own-trained-retention-model). It explains the required model interface, artifact bundle, schema checks, and local drift-baseline rebuild. Do not replace the model in a hosted deployment or use customer data without an approved privacy, security, and governance review.
 
 ## Included
 
