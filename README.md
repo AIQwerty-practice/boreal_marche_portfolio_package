@@ -6,24 +6,25 @@ This public, replication-oriented deliverables package presents the Boreal March
 
 The portfolio package is a public, reproducibility-oriented companion to the completed capstone. It contains the runnable implementation and supporting technical documentation; final evidence, appendices, presentation files, and the release manifest are maintained in the separate release package. It is not a certified production release.
 
-## Week 11 reproducibility standard
+### Deliverable legend
 
 This repository is intended for a classmate to clone on a clean machine and reproduce the system using documented commands. Environment variables are listed in [`.env.example`](.env.example) and [`deploy/aws/.env.example`](deploy/aws/.env.example); no secret values are committed. The teacher coordinates the final reproducibility review with students.
 
-## For a teammate
+“D#” in a file name or document refers to the corresponding project deliverable above; it is not a version number or a production-readiness level.
 
-Use Python 3.11 or 3.12, then run:
+## Reproducibility standard
 
-```bash
-python -m venv .venv
-# Activate the environment for your shell.
-python -m pip install --upgrade pip
-python -m pip install -e ".[dev]"
-python -m boreal_marche.data.ingest --root .
-python -m pytest
-```
+This repository is intended for a classmate to clone on a clean machine and reproduce the system using documented commands. Environment variables are listed in [`.env.example`](.env.example) and [`deploy/aws/.env.example`](deploy/aws/.env.example); no secret values are committed. The instructor coordinates the final clean-clone check as a grading activity; the canonical release is the main project repository’s `v1.0` release.
 
-The ingestion process retrieves the documented source dataset when needed. Raw and generated customer-level data are intentionally not distributed in this repository. A successful test run and documented local API start are the current reproducibility checks; the final clean-machine outcome remains a D7 release requirement.
+## For a teammate: reproduce the local app
+
+Start with the step-by-step [clean-clone guide](docs/LOCAL_SETUP.md). It gives Windows, macOS, and Linux activation commands; rebuilds the local runtime from the public source data; explains the required local drift baseline; and ends with exact browser and API checks. It also clearly separates the normal reproduction path from optional Ollama and staff-demo features.
+
+The ingestion process retrieves the documented source dataset when needed. Raw and generated customer-level data are intentionally not distributed in this repository. A local rebuild is development evidence: it does not recreate the protected final evaluation or authorize production use.
+
+## Use your own trained retention model (local development only)
+
+The same guide includes a controlled [custom-model path](docs/LOCAL_SETUP.md#optional-use-your-own-trained-retention-model). It explains the required model interface, artifact bundle, schema checks, and local drift-baseline rebuild. Do not replace the model in a hosted deployment or use customer data without an approved privacy, security, and governance review.
 
 ## Included
 
