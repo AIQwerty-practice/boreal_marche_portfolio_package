@@ -2,7 +2,7 @@
 
 ## Standard
 
-Week 11 requires an independent classmate to clone this repository on a clean machine and bring the system up with the documented commands. Required environment-variable names are provided in `.env.example` and `deploy/aws/.env.example`; secret values must never be committed.
+The Capstone Project requires an independent classmate to clone this repository on a clean machine and bring the system up with the documented commands. Required environment-variable names are provided in `.env.example` and `deploy/aws/.env.example`; secret values must never be committed.
 
 ## Current package
 
