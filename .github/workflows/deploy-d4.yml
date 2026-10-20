@@ -1,0 +1,61 @@
+name: Deploy D4 demonstration
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: d4-demo-deployment
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: d4-demo
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+      EC2_INSTANCE_ID: ${{ vars.EC2_INSTANCE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials with GitHub OIDC
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: Log in to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push immutable image
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+        run: |
+          image="${REGISTRY}/${ECR_REPOSITORY}:${GITHUB_SHA}"
+          docker build -f deploy/aws/Dockerfile -t "$image" .
+          docker push "$image"
+          printf '### D4 image\n- Image: `%s`\n' "$image" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Deploy exact commit through Systems Manager
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+        run: |
+          command="cd /opt/boreal-marche && registry='${REGISTRY}' && aws ecr get-login-password --region '${AWS_REGION}' | docker login --username AWS --password-stdin \"\$registry\" && export BOREAL_IMAGE_TAG='${GITHUB_SHA}' && export BOREAL_ECR_IMAGE='${REGISTRY}/${ECR_REPOSITORY}' && docker compose --env-file deploy/aws/.env -f deploy/aws/compose.yaml -f deploy/aws/compose.deploy.yaml pull api && docker compose --env-file deploy/aws/.env -f deploy/aws/compose.yaml -f deploy/aws/compose.deploy.yaml up -d --no-build api && sh deploy/aws/smoke_test.sh"
+          parameters="$(jq -nc --arg command "$command" '{commands: [$command]}')"
+          command_id="$(aws ssm send-command --instance-ids "$EC2_INSTANCE_ID" --document-name AWS-RunShellScript --timeout-seconds 600 --parameters "$parameters" --query 'Command.CommandId' --output text)"
+          aws ssm wait command-executed --command-id "$command_id" --instance-id "$EC2_INSTANCE_ID"
+
+      - name: Verify public version when configured
+        if: ${{ vars.PUBLIC_BASE_URL != '' }}
+        env:
+          PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL }}
+        run: |
+          curl --fail --show-error --silent "${PUBLIC_BASE_URL%/}/health"
+          curl --fail --show-error --silent "${PUBLIC_BASE_URL%/}/ready"
+          curl --fail --show-error --silent "${PUBLIC_BASE_URL%/}/version"

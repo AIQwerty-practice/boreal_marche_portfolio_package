@@ -4,19 +4,11 @@ This public, replication-oriented deliverables package presents the Boreal March
 
 ## Current status
 
-The Boreal Marche project is complete through D7. This public portfolio repository is the clean-clone reproducibility package: it intentionally contains the runnable source, tests, safe configuration examples, and technical documentation, but not private customer data, cloud credentials, or grading evidence.
+The portfolio package is a public, reproducibility-oriented companion to the completed capstone. It contains the runnable implementation and supporting technical documentation; final evidence, appendices, presentation files, and the release manifest are maintained in the separate release package. It is not a certified production release.
 
 ### Deliverable legend
 
-| Label | Meaning |
-| --- | --- |
-| D1 | Data ingestion, quality review, and source-data documentation |
-| D2 | Feature engineering and temporal customer-history snapshots |
-| D3 | Retention-model selection, calibration, threshold policy, and protected evaluation |
-| D4 | Application engineering, API/UI, controlled deployment, and operational evidence |
-| D5 | Latency optimization, interpretation, fairness/allocation review, and governance boundaries |
-| D6 | Consolidated technical report, bilingual executive summary, and final presentation |
-| D7 | Submission checklist, release/defence materials, reflection, and reproducibility handoff |
+This repository is intended for a classmate to clone on a clean machine and reproduce the system using documented commands. Environment variables are listed in [`.env.example`](.env.example) and [`deploy/aws/.env.example`](deploy/aws/.env.example); no secret values are committed. The teacher coordinates the final reproducibility review with students.
 
 “D#” in a file name or document refers to the corresponding project deliverable above; it is not a version number or a production-readiness level.
 
@@ -49,4 +41,4 @@ Secrets, `.env` files, tokens, account identifiers, raw/interim/processed custom
 
 The AWS environment documented here is a controlled grading/demo deployment. It is not a production certification, rollback drill, durable monitoring platform, or encrypted-at-rest-storage claim. Hosted-provider comparisons remain optional and are not evidence of the deterministic, retrieval-grounded control.
 
-For setup, begin with [docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md). For technical context, see [ARCHITECTURE.md](ARCHITECTURE.md), [MODEL_CARD.md](MODEL_CARD.md), [DATA_CARD.md](DATA_CARD.md), and [deploy/aws/README.md](deploy/aws/README.md).
+For setup, begin with [docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md). For technical context, see [ARCHITECTURE.md](ARCHITECTURE.md), [MODEL_CARD.md](MODEL_CARD.md), [DATA_CARD.md](DATA_CARD.md), and [deploy/aws/README.md](deploy/aws/README.md). The visible course-layout guides are [`docker/`](docker/), [`data/`](data/), [`artifacts/`](artifacts/), [`notebooks/`](notebooks/), and [`reports/`](reports/).
